@@ -1,0 +1,52 @@
+#header {
+	height: 20%;
+	background-color: red;
+}
+
+#dealerCardsDiv {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 500px;
+	margin: 20px;
+}
+.dealerCards {
+	height: 100%;
+	width: 30%;
+	margin: 20px;
+	border: 5px solid black;
+	border-radius: 10%;	
+}
+
+#playerCardsDiv {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 500px;
+	margin: 20px;
+}
+.playerCards {
+	height: 100%;
+	width: 30%;
+	margin: 20px;
+	border: 5px solid black;
+	border-radius: 10%;
+}
+
+#options {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 200px;
+}
+.choice {
+	width: 25%;
+	height: 100%;
+	font-size: 48px;
+	border: 0;
+	padding: 0;
+	border-radius: 20%;
+}
