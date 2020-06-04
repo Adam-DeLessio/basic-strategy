@@ -11,8 +11,7 @@ let PC1;
 let PC2;
 let DC;
 
-
-function Deck() {
+function Hand() {
 	this.cards = []
 	for (let d=0; d<6; d++) {
 		for (let i=0; i<suits.length; i++) {
@@ -59,14 +58,9 @@ function Shuffle(cards) {
 	PC1 = cards[0].value
 	PC2 = cards[1].value
 	DC = cards[2].value
-
-	let choices = document.querySelectorAll('.choice')
-	choices.forEach(choice => {
-		choice.addEventListener('click', Check)
-	})
 }
 
-function Check() {
+function Check(value) {
 
 	// 0 = stand
 	// 1 = hit
@@ -74,7 +68,7 @@ function Check() {
 	// 3 = split
 
 	let playerSum;
-	let move;
+	let choice;
 
 	let differentCards = [
 		[0,  2, 3, 4, 5, 6, 7, 8, 9, 10,11],
@@ -122,16 +116,21 @@ function Check() {
 		[13, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1],
 	]
 
-
 	if ((PC1 != PC2) && (PC1 != 11) && (PC2 != 11)) {
 	  	playerSum = 20 - (PC1 + PC2)
-	  	move = differentCards[playerSum][DC-1]
+	  	choice = differentCards[playerSum][DC-1]
 	} else if (PC1 === PC2) {
 		playerSum = 12 - PC1
-		move = sameCards[playerSum][DC-1]
+		choice = sameCards[playerSum][DC-1]
 	} else {
 		playerSum = 22 - (PC1 + PC2)
-		move = oneAce[playerSum][DC-1]
+		choice = oneAce[playerSum][DC-1]
+	}
+
+	if (choice === Number(value)) {
+		console.log('Correct!')
+	} else {
+		console.log('Wrong!')
 	}
 
 
@@ -139,7 +138,6 @@ function Check() {
 
 
 
-	console.log(move)
 
 
 
@@ -148,29 +146,7 @@ function Check() {
 
 
 
-
-
-	Deck()
-
-
-
-
-
-
-	// `1 ace and 1 number`
-
-
-	// `2 of the same`
-
+	Hand()
 }
 
-
-
-
-
-
-
-
-
-
-let deal = new Deck
+let deal = new Hand
