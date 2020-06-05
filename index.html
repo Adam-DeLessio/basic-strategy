@@ -15,21 +15,34 @@
 		<div id='counter'></div>
 		<div id='dealerCardsDiv'>
 			<div id='dealer1' class='dealerCards'></div>
-			<div id='dealer2' class='dealerCards'></div>
+			<div id='dealer2' class='dealerCards'>
+				<div id='UpperLeft' class='upperLeft'></div>
+				<div id='Center' class='center'></div>
+				<div id='BottomRight' class='bottomRight'></div>
+			</div>
 		</div>
 
 		<div id='playerCardsDiv'>
-			<div id='card1' class='playerCards'></div>
-			<div id='card2' class='playerCards'></div>
+			<div id='card1' class='playerCards'>
+				<div id='P1UpperLeft' class='upperLeft'></div>
+				<div id='P1Center' class='center'></div>
+				<div id='P1BottomRight' class='bottomRight'></div>
+			</div>
+			<div id='card2' class='playerCards'>
+				<div id='P2UpperLeft' class='upperLeft'></div>
+				<div id='P2Center' class='center'></div>
+				<div id='P2BottomRight' class='bottomRight'></div>
+			</div>
 		</div>
 
 		<div id='options'>
+			<button id='split' value='3' onclick='Check(this.value)' class='choice'>Split</button>
+			<button id='double' value='2' onclick='Check(this.value)' class='choice'>Double</button>
 			<button id='stand' value='0' onclick='Check(this.value)' class='choice'>Stand</button>
 			<button id='hit' value='1' onclick='Check(this.value)' class='choice'>Hit</button>
-			<button id='double' value='2' onclick='Check(this.value)' class='choice'>Double</button>
-			<button id='split' value='3' onclick='Check(this.value)' class='choice'>Split</button>
 		</div>
 
+		<div id='wrong'>WRONG</div>
 
 		<div id='guess'></div>
 	</main>

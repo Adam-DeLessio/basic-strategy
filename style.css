@@ -2,6 +2,10 @@
 	height: 20%;
 	background-color: red;
 }
+#main {
+	background-image: linear-gradient(gray, lightgray);
+	height: 100vh;
+}
 #counter {
 	font-size: 36px;
 	border: 5px solid black;
@@ -17,7 +21,6 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 100%;
 	height: 500px;
 	margin: 20px;
 }
@@ -27,7 +30,7 @@
 	margin: 20px;
 	border: 5px solid black;
 	border-radius: 10%;
-	font-size: 36px;
+	font-size: 56px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -37,7 +40,6 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 100%;
 	height: 500px;
 	margin: 20px;
 }
@@ -47,24 +49,54 @@
 	margin: 20px;
 	border: 5px solid black;
 	border-radius: 10%;
-	font-size: 36px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	font-size: 56px;
+	display: grid;
 }
-
+.upperLeft {
+	display: flex;
+	align-items: center;
+	/*line-height: 40px;*/
+	margin-left: 8%;
+}
+.center {
+	font-size: 200px;
+	text-align: center;
+}
+.bottomRight {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-left: 8%;
+	transform: rotate(180deg);
+}
 #options {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 100%;
 	height: 200px;
+	margin: 10% 0 10% 0;
 }
 .choice {
-	width: 25%;
+	width: 20%;
 	height: 100%;
 	font-size: 48px;
 	border: 0;
 	padding: 0;
+	margin: 2%;
 	border-radius: 20%;
+}
+#guess {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	width: 100%;
+	font-size: 48px;
+
+}
+#wrong {
+	display: none;
+	font-size: 100px;
+	position: absolute;
+
 }

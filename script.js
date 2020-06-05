@@ -1,15 +1,23 @@
-let suits = ['hearts', 'diamonds', 'clubs', 'spades']
+let suits = ['♥', '♦', '♣', '♠']
 let ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 let counter = document.querySelector('#counter')
-let count = -1
+let count = 0
 
-let playerCard1 = document.querySelector('#card1')
+let main = document.querySelector('#main')
+let guess = document.querySelector('#guess')
+
+let upperLeft = document.querySelectorAll('.upperLeft')
+let bottomRight = document.querySelectorAll('.bottomRight')
+let center = document.querySelectorAll('.center')
+
 let playerCard2 = document.querySelector('#card2')
 let dealerCard2 = document.querySelector('#dealer2')
 
-let PC1;
-let PC2;
-let DC;
+let pc1;
+let pc2;
+let dc;
+
+guess.innerHTML = "Let's play a game!"
 
 function Hand() {
 	this.cards = []
@@ -19,6 +27,7 @@ function Hand() {
 				let rank = ranks[j]
 				let suit = suits[i]
 				let value;
+				let color;
 				if (ranks[j] === 'J' || ranks[j] === 'Q' || ranks[j] === 'K') {
 					value = 10
 				} else if (ranks[j] === 'A') {
@@ -26,22 +35,28 @@ function Hand() {
 				} else {
 					value = Number(ranks[j])
 				}
-				this.cards.push(new Card(rank, suit, value))
+				if (suits[i] === '♦' || suits[i] === '♥') {
+					color = 'red'
+				} else {
+					color = 'black'
+				}
+				this.cards.push(new Card(rank, suit, value, color))
 			}
 		}
 	}
-	count++
 	Shuffle(this.cards)
 }
 
-function Card(rank, suit, value) {
+function Card(rank, suit, value, color) {
 	this.rank = rank
 	this.suit = suit
 	this.value = value
+	this.color = color
 }
 
 function Shuffle(cards) {
 	this.cards = []
+	counter.innerHTML = count
 
 	for (let i=cards.length-1; i>=0; i--) {
 		let j = Math.floor(Math.random() * i);
@@ -51,34 +66,44 @@ function Shuffle(cards) {
 
 		this.cards.push(cards[i])
 	}
-	counter.innerHTML = count
-	playerCard1.innerHTML = `${cards[0].rank} ${cards[0].suit}`
-	playerCard2.innerHTML = `${cards[1].rank} ${cards[1].suit}`
-	dealerCard2.innerHTML = `${cards[2].rank} ${cards[2].suit}`
-	PC1 = cards[0].value
-	PC2 = cards[1].value
-	DC = cards[2].value
+	
+
+	for (let i=0; i<3; i++) {
+		upperLeft[i].innerHTML = `${this.cards[i].rank}<br>${this.cards[i].suit}`
+		upperLeft[i].setAttribute('class', 'upperLeft')
+		center[i].innerHTML = `${this.cards[i].suit}`
+		center[i].setAttribute('class', 'center')
+		bottomRight[i].innerHTML = `${this.cards[i].rank}<br>${this.cards[i].suit}`
+		bottomRight[i].setAttribute('class', 'bottomRight')		
+	}
+
+	pc1 = this.cards[0]
+	pc2 = this.cards[1]
+	dc = this.cards[2]
 }
 
 function Check(value) {
 
-	// 0 = stand
-	// 1 = hit
-	// 2 = double
-	// 3 = split
+	let options = {
+		0: 'stand',
+		1: 'hit',
+		2: 'double',
+		3: 'split'
+	}
 
 	let playerSum;
 	let choice;
 
 	let differentCards = [
 		[0,  2, 3, 4, 5, 6, 7, 8, 9, 10,11],
+		[20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		[19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		[18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		[17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[16, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
-		[15, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
-		[14, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
-		[13, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
+		[16, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+		[15, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+		[14, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+		[13, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
 		[12, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1],
 		[11, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
 		[10, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1],
@@ -116,21 +141,32 @@ function Check(value) {
 		[13, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1],
 	]
 
-	if ((PC1 != PC2) && (PC1 != 11) && (PC2 != 11)) {
-	  	playerSum = 20 - (PC1 + PC2)
-	  	choice = differentCards[playerSum][DC-1]
-	} else if (PC1 === PC2) {
-		playerSum = 12 - PC1
-		choice = sameCards[playerSum][DC-1]
+	if (((pc1.value != pc2.value) && (pc1.value != 11) && (pc2.value != 11)) || ((pc1.value === pc2.value) && (pc1.rank != pc2.rank))) {
+	  	playerSum = 21 - (pc1.value + pc2.value)
+	  	choice = differentCards[playerSum][dc.value-1]
+	} else if (pc1.value === pc2.value) {
+		playerSum = 12 - pc1.value
+		choice = sameCards[playerSum][dc.value-1]
 	} else {
-		playerSum = 22 - (PC1 + PC2)
-		choice = oneAce[playerSum][DC-1]
+		playerSum = 22 - (pc1.value + pc2.value)
+		choice = oneAce[playerSum][dc.value-1]
 	}
 
 	if (choice === Number(value)) {
-		console.log('Correct!')
+		main.style.backgroundImage = 'linear-gradient(green, lightgreen)'
+		count++
+		guess.innerHTML = 'Correct!'
+		guess.style.display = 'flex'
 	} else {
-		console.log('Wrong!')
+		main.style.backgroundImage = 'linear-gradient(red, orange)'
+
+		let wrong = () => {
+
+		}
+
+		count = 0
+		guess.innerHTML = `Wrong!<br>You should<br>${Object(options[Number(choice)])}<br>when you have<br>${pc1.rank} ${pc2.rank}<br>against the dealers'<br>${dc.rank}`
+		guess.style.display = 'flex'
 	}
 
 
@@ -148,5 +184,7 @@ function Check(value) {
 
 	Hand()
 }
+
+
 
 let deal = new Hand
