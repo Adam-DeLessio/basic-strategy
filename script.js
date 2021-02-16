@@ -19,71 +19,117 @@ let dc;
 
 guess.innerHTML = "Let's play a game!"
 
-function Hand() {
-	this.cards = []
-	for (let d=0; d<6; d++) {
-		for (let i=0; i<suits.length; i++) {
-			for (let j=0; j<ranks.length; j++) {
-				let rank = ranks[j]
-				let suit = suits[i]
-				let value;
-				let color;
-				if (ranks[j] === 'J' || ranks[j] === 'Q' || ranks[j] === 'K') {
-					value = 10
-				} else if (ranks[j] === 'A') {
-					value = 11
-				} else {
-					value = Number(ranks[j])
-				}
-				if (suits[i] === '♦' || suits[i] === '♥') {
-					color = 'red'
-				} else {
-					color = 'black'
-				}
-				this.cards.push(new Card(rank, suit, value, color))
-			}
-		}
-	}
-	Shuffle(this.cards)
-}
+// function Hand() {
+// 	this.cards = []
+// 	for (let d=0; d<6; d++) {
+// 		for (let i=0; i<suits.length; i++) {
+// 			for (let j=0; j<ranks.length; j++) {
+// 				let rank = ranks[j]
+// 				let suit = suits[i]
+// 				let value;
+// 				let color;
+// 				if (ranks[j] === 'J' || ranks[j] === 'Q' || ranks[j] === 'K') {
+// 					value = 10
+// 				} else if (ranks[j] === 'A') {
+// 					value = 11
+// 				} else {
+// 					value = Number(ranks[j])
+// 				}
+// 				if (suits[i] === '♦' || suits[i] === '♥') {
+// 					color = 'red'
+// 				} else {
+// 					color = 'black'
+// 				}
+// 				this.cards.push(new Card(rank, suit, value, color))
+// 			}
+// 		}
+// 	}
+// 	Shuffle(this.cards)
+// }
 
-function Card(rank, suit, value, color) {
-	this.rank = rank
-	this.suit = suit
-	this.value = value
-	this.color = color
-}
+// function Card(rank, suit, value, color) {
+// 	this.rank = rank
+// 	this.suit = suit
+// 	this.value = value
+// 	this.color = color
+// }
 
-function Shuffle(cards) {
-	this.cards = []
-	counter.innerHTML = count
+// function Shuffle(cards) {
+// 	this.cards = []
+// 	counter.innerHTML = count
 
-	for (let i=cards.length-1; i>=0; i--) {
-		let j = Math.floor(Math.random() * i);
-		let k = cards[i]
-		cards[i] = cards[j]
-		cards[j] = k
+// 	for (let i=cards.length-1; i>=0; i--) {
+// 		let j = Math.floor(Math.random() * i);
+// 		let k = cards[i]
+// 		cards[i] = cards[j]
+// 		cards[j] = k
 
-		this.cards.push(cards[i])
-	}
+// 		this.cards.push(cards[i])
+// 	}
 	
+	// let cardColor = document.querySelectorAll('.cards')
+	// for (let i=0; i<3; i++) {
+	// 	upperLeft[i].innerHTML = `${this.cards[i].rank}<br>${this.cards[i].suit}`
+	// 	upperLeft[i].setAttribute('class', 'upperLeft')
+	// 	center[i].innerHTML = `${this.cards[i].suit}`
+	// 	center[i].setAttribute('class', 'center')
+	// 	bottomRight[i].innerHTML = `${this.cards[i].rank}<br>${this.cards[i].suit}`
+	// 	bottomRight[i].setAttribute('class', 'bottomRight')
+	// 	cardColor[i+1].style.color = this.cards[i].color
+	// }
 
-	for (let i=0; i<3; i++) {
-		upperLeft[i].innerHTML = `${this.cards[i].rank}<br>${this.cards[i].suit}`
-		upperLeft[i].setAttribute('class', 'upperLeft')
-		center[i].innerHTML = `${this.cards[i].suit}`
-		center[i].setAttribute('class', 'center')
-		bottomRight[i].innerHTML = `${this.cards[i].rank}<br>${this.cards[i].suit}`
-		bottomRight[i].setAttribute('class', 'bottomRight')		
+// 	dc = this.cards[0]
+// 	pc1 = this.cards[1]
+// 	pc2 = this.cards[2]
+// }
+
+
+
+function makeCard() {
+	let randomSuit = suits[(Math.floor(Math.random() * 4))]
+	let randomRank = ranks[(Math.floor(Math.random() * 13))]
+	let value;
+	let color;
+	if (randomRank === 'J' || randomRank === 'Q' || randomRank === 'K') {
+		value = 10
+	} else if (randomRank === 'A') {
+		value = 11
+	} else {
+		value = Number(randomRank)
 	}
+	if (randomSuit === '♦' || randomSuit === '♥') {
+		color = 'red'
+	} else {
+		color = 'black'
+	}
+	let card = {
+		suit: randomSuit,
+		rank: randomRank,
+		value: value,
+		color: color
+	}
+	return card
+}
 
-	pc1 = this.cards[0]
-	pc2 = this.cards[1]
-	dc = this.cards[2]
+function Hand() {
+	dc = makeCard()
+	pc1 = makeCard()
+	pc2 = makeCard()
+	let cards = [dc, pc1, pc2]
+
+	let cardColor = document.querySelectorAll('.cards')
+	for (let i=0; i<3; i++) {
+		upperLeft[i].innerHTML = `${cards[i].rank}<br>${cards[i].suit}`
+		upperLeft[i].setAttribute('class', 'upperLeft')
+		center[i].innerHTML = `${cards[i].suit}`
+		center[i].setAttribute('class', 'center')
+		bottomRight[i].innerHTML = `${cards[i].rank}<br>${cards[i].suit}`
+		bottomRight[i].setAttribute('class', 'bottomRight')
+		cardColor[i+1].style.color = cards[i].color
+	}
 }
 
 function Check(value) {
-
 	let options = {
 		0: 'stand',
 		1: 'hit',
@@ -152,35 +198,35 @@ function Check(value) {
 		choice = oneAce[playerSum][dc.value-1]
 	}
 
+	// let prevP1 = document.querySelector('#card1').cloneNode(true)
+	// let prevP2 = document.querySelector('#card2').cloneNode(true)
+	// let prevDC = document.querySelector('#dealer2').cloneNode(true)
+	// prevP1.setAttribute('class', 'prevCards')
+
 	if (choice === Number(value)) {
 		main.style.backgroundImage = 'linear-gradient(green, lightgreen)'
 		count++
-		guess.innerHTML = 'Correct!'
+		guess.innerHTML = ''
 		guess.style.display = 'flex'
 	} else {
 		main.style.backgroundImage = 'linear-gradient(red, orange)'
-
-		let wrong = () => {
-
-		}
-
 		count = 0
-		guess.innerHTML = `Wrong!<br>You should<br>${Object(options[Number(choice)])}<br>when you have<br>${pc1.rank} ${pc2.rank}<br>against the dealers'<br>${dc.rank}`
 		guess.style.display = 'flex'
+		guess.innerHTML = ''
+
+
+
+
+
+		// guess.innerHTML = `You should<br>${Object(options[Number(choice)])}<br>when you have<br>${} ${guess.appendChild(prevP2)}<br>against the dealers'<br>${guess.appendChild(prevDC)}`
+
+		// guess.appendChild(prevP1)
+		// guess.appendChild(prevP2)
+		// guess.appendChild(prevDC)
+
+
+
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	Hand()
 }

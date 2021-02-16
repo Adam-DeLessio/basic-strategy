@@ -24,18 +24,15 @@
 	height: 500px;
 	margin: 20px;
 }
-.dealerCards {
-	height: 100%;
-	width: 30%;
-	margin: 20px;
-	border: 5px solid black;
-	border-radius: 10%;
-	font-size: 56px;
+#dealer1 {
 	display: flex;
-	justify-content: center;
 	align-items: center;
+	justify-content: center;
+	/*background-image: url('https://i.imgur.com/2Pe88cD.jpg');
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;*/
 }
-
 #playerCardsDiv {
 	display: flex;
 	align-items: center;
@@ -43,14 +40,14 @@
 	height: 500px;
 	margin: 20px;
 }
-.playerCards {
+.cards {
 	height: 100%;
 	width: 30%;
 	margin: 20px;
-	border: 5px solid black;
 	border-radius: 10%;
 	font-size: 56px;
 	display: grid;
+	background-color: white;
 }
 .upperLeft {
 	display: flex;
@@ -84,6 +81,7 @@
 	padding: 0;
 	margin: 2%;
 	border-radius: 20%;
+	outline: none;
 }
 #guess {
 	display: flex;
@@ -92,11 +90,13 @@
 	text-align: center;
 	width: 100%;
 	font-size: 48px;
-
 }
-#wrong {
-	display: none;
-	font-size: 100px;
-	position: absolute;
-
+.prevCards {
+	height: 10%;
+	width: 10%;
+	margin: 20px;
+	border-radius: 10%;
+	font-size: 24px;
+	display: grid;
+	background-color: white;
 }
