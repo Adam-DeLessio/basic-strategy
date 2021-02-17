@@ -17,71 +17,8 @@ let pc1;
 let pc2;
 let dc;
 
-guess.innerHTML = "Let's play a game!"
-
-// function Hand() {
-// 	this.cards = []
-// 	for (let d=0; d<6; d++) {
-// 		for (let i=0; i<suits.length; i++) {
-// 			for (let j=0; j<ranks.length; j++) {
-// 				let rank = ranks[j]
-// 				let suit = suits[i]
-// 				let value;
-// 				let color;
-// 				if (ranks[j] === 'J' || ranks[j] === 'Q' || ranks[j] === 'K') {
-// 					value = 10
-// 				} else if (ranks[j] === 'A') {
-// 					value = 11
-// 				} else {
-// 					value = Number(ranks[j])
-// 				}
-// 				if (suits[i] === '♦' || suits[i] === '♥') {
-// 					color = 'red'
-// 				} else {
-// 					color = 'black'
-// 				}
-// 				this.cards.push(new Card(rank, suit, value, color))
-// 			}
-// 		}
-// 	}
-// 	Shuffle(this.cards)
-// }
-
-// function Card(rank, suit, value, color) {
-// 	this.rank = rank
-// 	this.suit = suit
-// 	this.value = value
-// 	this.color = color
-// }
-
-// function Shuffle(cards) {
-// 	this.cards = []
-// 	counter.innerHTML = count
-
-// 	for (let i=cards.length-1; i>=0; i--) {
-// 		let j = Math.floor(Math.random() * i);
-// 		let k = cards[i]
-// 		cards[i] = cards[j]
-// 		cards[j] = k
-
-// 		this.cards.push(cards[i])
-// 	}
-	
-	// let cardColor = document.querySelectorAll('.cards')
-	// for (let i=0; i<3; i++) {
-	// 	upperLeft[i].innerHTML = `${this.cards[i].rank}<br>${this.cards[i].suit}`
-	// 	upperLeft[i].setAttribute('class', 'upperLeft')
-	// 	center[i].innerHTML = `${this.cards[i].suit}`
-	// 	center[i].setAttribute('class', 'center')
-	// 	bottomRight[i].innerHTML = `${this.cards[i].rank}<br>${this.cards[i].suit}`
-	// 	bottomRight[i].setAttribute('class', 'bottomRight')
-	// 	cardColor[i+1].style.color = this.cards[i].color
-	// }
-
-// 	dc = this.cards[0]
-// 	pc1 = this.cards[1]
-// 	pc2 = this.cards[2]
-// }
+counter.innerHTML = count
+// guess.innerHTML = "Let's play a game!"
 
 
 
@@ -216,8 +153,6 @@ function Check(value) {
 
 
 
-
-
 		// guess.innerHTML = `You should<br>${Object(options[Number(choice)])}<br>when you have<br>${} ${guess.appendChild(prevP2)}<br>against the dealers'<br>${guess.appendChild(prevDC)}`
 
 		// guess.appendChild(prevP1)
@@ -227,8 +162,13 @@ function Check(value) {
 
 
 	}
-
+	counter.innerHTML = count
 	Hand()
+}
+
+///// resets the counter ---- should probably change /////
+function Reload() {
+	location.reload()
 }
 
 

@@ -11,8 +11,8 @@
 			
 	</header>
 
+	<div id='counter'></div>
 	<main id='main'>
-		<div id='counter'></div>
 		<div id='dealerCardsDiv'>
 			<div id='dealer1' class='cards'></div>
 			<div id='dealer2' class='cards'>
@@ -42,6 +42,19 @@
 			<button id='hit' value='1' onclick='Check(this.value)' class='choice'>Hit</button>
 		</div>
 
+		<div id='typesList'>
+			<input type="checkbox" class='type' id='soft-hit'>
+			<label for="soft-hit">Soft Hit</label>
+			<input type="checkbox" class='type' id='soft-stand'>
+			<label for="soft-stand">Soft Stand</label>
+			<input type="checkbox" class='type' id='soft-split'>
+			<label for="soft-split">Soft Split</label>
+			<input type="checkbox" class='type' id='soft-double'>
+			<label for="soft-double">Soft Double</label>
+
+		</div>
+
+		<button id='changeTypes' onclick='Reload()'>Make Changes</button>
 
 
 
