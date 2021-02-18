@@ -17,11 +17,70 @@ let pc1;
 let pc2;
 let dc;
 
+let softHit;
+let softStand;
+let softSplit;
+let softDouble;
+
 counter.innerHTML = count
-// guess.innerHTML = "Let's play a game!"
+
+let playerSum;
+let choice;
+
+// Does not handle aces or splits
+let differentCards = [
+	[0,  2, 3, 4, 5, 6, 7, 8, 9, 10,11],
+	[20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[16, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+	[15, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+	[14, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+	[13, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+	[12, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1],
+	[11, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+	[10, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1],
+	[9,  1, 2, 2, 2, 2, 1, 1, 1, 1, 1],
+	[8,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	[7,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	[6,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	[5,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+// Handles all splits
+let sameCards = [
+	[0,  2, 3, 4, 5, 6, 7, 8, 9, 10,11],
+	[22, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+	[20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[18, 3, 3, 3, 3, 3, 0, 3, 3, 0, 0],
+	[16, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+	[14, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1],
+	[12, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1],
+	[10, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1],
+	[8,  1, 1, 1, 3, 3, 1, 1, 1, 1, 1],
+	[6,  3, 3, 3, 3, 3, 3, 1, 1, 1, 1],
+	[4,  3, 3, 3, 3, 3, 3, 1, 1, 1, 1]
+]
+
+// Handles all soft pairs
+let oneAce = [
+	[0,  2, 3, 4, 5, 6, 7, 8, 9, 10,11],
+	[21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[18, 0, 2, 2, 2, 2, 0, 0, 1, 1, 1],
+	[17, 1, 2, 2, 2, 2, 1, 1, 1, 1, 1],
+	[16, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1],
+	[15, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1],
+	[14, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1],
+	[13, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1],
+]
 
 
 
+
+// Creates a random card //
 function makeCard() {
 	let randomSuit = suits[(Math.floor(Math.random() * 4))]
 	let randomRank = ranks[(Math.floor(Math.random() * 13))]
@@ -48,12 +107,56 @@ function makeCard() {
 	return card
 }
 
+// Hand type switch code //
+let softHitSwitch = document.querySelector('#soft-hit')
+if (softHitSwitch.checked) {
+	softHit = true
+} else {
+	softHit = false
+}
+
+// Generates the dealer card and both player cards //
 function Hand() {
+	softHit = true
+	softStand = true
+	softSplit = true
+	softDouble = true
+
 	dc = makeCard()
 	pc1 = makeCard()
 	pc2 = makeCard()
 	let cards = [dc, pc1, pc2]
 
+	//// soft hit
+	// softHitSwitch === true, and everything else is false
+	// pc1 is a ten --- pc1 must re-draw
+	// pc1 is an ace and pc2 is a ten or an ace --- pc2 must re-draw
+	// neither card is an ace --- pc2 must re-draw
+	// pc1 is not an ace or a ten but pc2 is an ace --- good
+
+
+	//// hard split
+	// hardSplitSwitch === true, and everything else is false
+	// pc1 value is 10 but rank is royal --- pc1 must re-draw
+	// pc1 is an ace --- pc1 must re-draw
+	// pc2 value is 10 but rank is royal --- pc2 must re-draw
+	// pc2 is an ace --- pc2 must re-draw
+	// pc2 is a valid card, but not the same as pc1 --- pc2 must re-draw
+
+
+
+	if (pc1.rank === 'A') {
+
+	}
+
+
+
+
+
+
+
+
+// Generates the visual cards //
 	let cardColor = document.querySelectorAll('.cards')
 	for (let i=0; i<3; i++) {
 		upperLeft[i].innerHTML = `${cards[i].rank}<br>${cards[i].suit}`
@@ -66,6 +169,7 @@ function Hand() {
 	}
 }
 
+// Checks the players' move selection //
 function Check(value) {
 	let options = {
 		0: 'stand',
@@ -74,56 +178,7 @@ function Check(value) {
 		3: 'split'
 	}
 
-	let playerSum;
-	let choice;
-
-	let differentCards = [
-		[0,  2, 3, 4, 5, 6, 7, 8, 9, 10,11],
-		[20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[16, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
-		[15, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
-		[14, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
-		[13, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
-		[12, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1],
-		[11, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
-		[10, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1],
-		[9,  1, 2, 2, 2, 2, 1, 1, 1, 1, 1],
-		[8,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-		[7,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-		[6,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-		[5,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-	]
-
-	let sameCards = [
-		[0,  2, 3, 4, 5, 6, 7, 8, 9, 10,11],
-		[22, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-		[20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[18, 3, 3, 3, 3, 3, 0, 3, 3, 0, 0],
-		[16, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-		[14, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1],
-		[12, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1],
-		[10, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1],
-		[8,  1, 1, 1, 3, 3, 1, 1, 1, 1, 1],
-		[6,  3, 3, 3, 3, 3, 3, 1, 1, 1, 1],
-		[4,  3, 3, 3, 3, 3, 3, 1, 1, 1, 1]
-	]
-
-	let oneAce = [
-		[0,  2, 3, 4, 5, 6, 7, 8, 9, 10,11],
-		[21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[18, 0, 2, 2, 2, 2, 0, 0, 1, 1, 1],
-		[17, 1, 2, 2, 2, 2, 1, 1, 1, 1, 1],
-		[16, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1],
-		[15, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1],
-		[14, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1],
-		[13, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1],
-	]
-
+// Logic to determine which chart to reference and decide the correct move //
 	if (((pc1.value != pc2.value) && (pc1.value != 11) && (pc2.value != 11)) || ((pc1.value === pc2.value) && (pc1.rank != pc2.rank))) {
 	  	playerSum = 21 - (pc1.value + pc2.value)
 	  	choice = differentCards[playerSum][dc.value-1]
@@ -135,11 +190,7 @@ function Check(value) {
 		choice = oneAce[playerSum][dc.value-1]
 	}
 
-	// let prevP1 = document.querySelector('#card1').cloneNode(true)
-	// let prevP2 = document.querySelector('#card2').cloneNode(true)
-	// let prevDC = document.querySelector('#dealer2').cloneNode(true)
-	// prevP1.setAttribute('class', 'prevCards')
-
+// Change background color based on move //
 	if (choice === Number(value)) {
 		main.style.backgroundImage = 'linear-gradient(green, lightgreen)'
 		count++
@@ -150,17 +201,6 @@ function Check(value) {
 		count = 0
 		guess.style.display = 'flex'
 		guess.innerHTML = ''
-
-
-
-		// guess.innerHTML = `You should<br>${Object(options[Number(choice)])}<br>when you have<br>${} ${guess.appendChild(prevP2)}<br>against the dealers'<br>${guess.appendChild(prevDC)}`
-
-		// guess.appendChild(prevP1)
-		// guess.appendChild(prevP2)
-		// guess.appendChild(prevDC)
-
-
-
 	}
 	counter.innerHTML = count
 	Hand()
