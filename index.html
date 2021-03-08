@@ -5,8 +5,9 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Black Jack Basic Strategy</title>
 	<link rel="stylesheet" href="./style.css">
+	<link rel="stylesheet" href="./chart.css">
 </head>
-<body>
+<body id='body'>
 	<header id="header">
 			
 	</header>
@@ -54,8 +55,9 @@
 
 		</div>
 
-		<!-- <button id='changeTypes' onclick='Reload()'>Make Changes</button> -->
+		<div id='chartRevealBtn' onclick='revealChart()'>View Chart</div>
 
+		<!-- <button id='changeTypes' onclick='Reload()'>Make Changes</button> -->
 
 
 		<div id='guess'>
@@ -72,10 +74,17 @@
 		</div>
 	</main>
 
+	<section id='chart-section'>
+		<table id='chart'>
+			<tbody id='chart-body'></tbody>
+		</table>
+	</section>
+
 
 
 
 
 <script src="./script.js" type="text/javascript" charset="utf-8" async defer></script>
+<script src="./chart.js" type="text/javascript" charset="utf-8" async defer></script>
 </body>
 </html>

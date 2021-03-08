@@ -1,0 +1,15 @@
+#chart-section {
+	display: none;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-image: linear-gradient(gray, lightgray);
+	height: 100vh;
+	background-color: red;
+}
+tr {
+	width: 20px;
+	height: 20px;
+	background-color: red;
+	border: 1px solid black;
+}
