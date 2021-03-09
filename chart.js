@@ -1,12 +1,9 @@
 let chartRevealBtn = document.querySelector('#chartRevealBtn')
 let chartBody = document.querySelector('#chart-body')
 
+let topRowValues = [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 'A']
 let cardChart = [
-	[0,  2, 3, 4, 5, 6, 7, 8, 9, 10,11],
-	[20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	['17+', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	[16, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
 	[15, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
 	[14, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
@@ -14,11 +11,8 @@ let cardChart = [
 	[12, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1],
 	[11, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
 	[10, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1],
-	[9,  1, 2, 2, 2, 2, 1, 1, 1, 1, 1],
-	[8,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-	[7,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-	[6,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-	[5,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+	[9 , 1, 2, 2, 2, 2, 1, 1, 1, 1, 1],
+	['5-8', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
 function revealChart() {
@@ -32,6 +26,20 @@ function revealChart() {
 
 function makeChart(playerCards) {
 	let chartBody = document.querySelector('#chart-body')
+	let topRow = document.createElement('tr')
+	chartBody.appendChild(topRow)
+	topRowValues.forEach(r => {
+		let newColumn = document.createElement('td')
+		if (r != 0) {
+			newColumn.innerText = r
+			newColumn.style.backgroundColor = 'white'
+			topRow.appendChild(newColumn)
+		} else {
+			newColumn.innerText = ''
+			newColumn.style.backgroundColor = 'white'
+			topRow.appendChild(newColumn)
+		}
+	})
 
 	cardChart.forEach(r => {
 		let newRow = document.createElement('tr')
@@ -48,16 +56,11 @@ function makeChart(playerCards) {
 			} else if (c === 2) {
 				newColumn.innerText = 'D'
 				newColumn.style.backgroundColor = 'red'
+			} else {
+				newColumn.innerText = c
+				newColumn.style.backgroundColor = 'white'
 			}
 			newRow.appendChild(newColumn)
 		})
 	})
-
-
-
-	// for (let i=0; i<8; i++) {
-	// 	let newRow = document.createElement('tr')
-	// 	newRow.innerText = 'new row'
-	// 	chartBody.appendChild(newRow)
-	// }
 }
