@@ -1,5 +1,6 @@
 #body {
 	margin: 0;
+	display: flex;
 }
 #header {
 	height: 20%;
@@ -12,6 +13,7 @@
 	justify-content: center;
 	background-image: linear-gradient(gray, lightgray);
 	height: 100vh;
+	width: 100vw;
 }
 #counter {
 	font-size: 36px;
@@ -127,12 +129,22 @@
 	margin: 20px;
 	font-size: 36px;
 }
+#chartCloseBtn {
+	display: none;
+}
 .chartBtn {
 	width: 75%;
 	text-align: center;
 	font-size: 48px;
 	border: 1px solid black;
 	margin-top: 50px;
+}
+#chart-section {
+	display: none;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100vw;
 }
 #chart {
 
