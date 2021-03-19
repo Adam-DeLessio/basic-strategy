@@ -30,6 +30,12 @@ function revealChart() {
 
 let dcHighlight;
 let pcHighlight;
+let x;
+let y;
+let cross;
+let handColor;
+
+// Highlights the row, column, and correct move for the current hand
 function highlightChoice() {
 	let card1 = document.querySelector('#card1').value
 	let card2 = document.querySelector('#card2').value
@@ -41,23 +47,32 @@ function highlightChoice() {
 		if (dc === r) {
 			dcHighlight = chartBody.rows[0].cells[r-1]
 			dcHighlight.style.backgroundColor = 'black'
+			x = r-1
 		} else if (dc === 11) {
 			dcHighlight = chartBody.rows[0].cells[10]
 			dcHighlight.style.backgroundColor = 'black'
+			x = 10
 		}
 	})
 	cardChart.forEach(c => {
 			if (playerTotal === c[0]) {
 				pcHighlight = chartBody.rows[18-playerTotal].cells[0]
 				pcHighlight.style.backgroundColor = 'black'
+				y = 18-playerTotal
 			} else if (playerTotal < 9) {
 				pcHighlight = chartBody.rows[10].cells[0]
 				pcHighlight.style.backgroundColor = 'black'
+				y = 10
 			} else if (playerTotal > 16) {
 				pcHighlight = chartBody.rows[1].cells[0]
 				pcHighlight.style.backgroundColor = 'black'
+				y = 1
 			}
 	})
+
+	cross = chartBody.rows[y].cells[x]
+	handColor = cross.style.backgroundColor
+	cross.style.backgroundColor = 'black'
 }
 
 
@@ -131,4 +146,5 @@ function closeChart() {
 	chartSection.style.display = 'none'
 	dcHighlight.style.backgroundColor = 'white'
 	pcHighlight.style.backgroundColor = 'white'
+	cross.style.backgroundColor = handColor
 }
