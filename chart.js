@@ -24,7 +24,61 @@ function revealChart() {
 	main.style.display = 'none'
 	chartSection.style.display = 'flex'
 	chartCloseBtn.style.display = 'flex'
+
+	highlightChoice()
 }
+
+let dcHighlight;
+let pcHighlight;
+function highlightChoice() {
+	let card1 = document.querySelector('#card1').value
+	let card2 = document.querySelector('#card2').value
+	let dc = document.querySelector('#dealer2').value
+
+	let playerTotal = card1 + card2
+
+	topRowValues.forEach(r => {
+		if (dc === r) {
+			dcHighlight = chartBody.rows[0].cells[r-1]
+			dcHighlight.style.backgroundColor = 'black'
+		} else if (dc === 11) {
+			dcHighlight = chartBody.rows[0].cells[10]
+			dcHighlight.style.backgroundColor = 'black'
+		}
+	})
+	cardChart.forEach(c => {
+			if (playerTotal === c[0]) {
+				pcHighlight = chartBody.rows[18-playerTotal].cells[0]
+				pcHighlight.style.backgroundColor = 'black'
+			} else if (playerTotal < 9) {
+				pcHighlight = chartBody.rows[10].cells[0]
+				pcHighlight.style.backgroundColor = 'black'
+			} else if (playerTotal > 16) {
+				pcHighlight = chartBody.rows[1].cells[0]
+				pcHighlight.style.backgroundColor = 'black'
+			}
+	})
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Creates the charts when the program loads
 function makeChart(playerCards) {
@@ -75,4 +129,6 @@ makeChart()
 function closeChart() {
 	main.style.display = 'flex'
 	chartSection.style.display = 'none'
+	dcHighlight.style.backgroundColor = 'white'
+	pcHighlight.style.backgroundColor = 'white'
 }

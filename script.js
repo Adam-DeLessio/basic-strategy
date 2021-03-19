@@ -126,6 +126,12 @@ function Hand() {
 	pc1 = makeCard()
 	pc2 = makeCard()
 	let cards = [dc, pc1, pc2]
+	let card1 = document.querySelector('#card1')
+	let card2 = document.querySelector('#card2')
+	let dealer2 = document.querySelector('#dealer2')
+	card1.value = pc1.value
+	card2.value = pc2.value
+	dealer2.value = dc.value
 
 	//// soft hit
 	// softHitSwitch === true, and everything else is false
