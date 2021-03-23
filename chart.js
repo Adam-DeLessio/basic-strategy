@@ -1,6 +1,6 @@
 let chartRevealBtn = document.querySelector('#chartRevealBtn')
 let body = document.querySelector('#body')
-let chartBody = document.querySelector('#chart-body')
+let chartTable = document.querySelector('#chart')
 let chartSection = document.querySelector('#chart-section')
 let chartCloseBtn = document.querySelector('#chartCloseBtn')
 
@@ -16,6 +16,26 @@ let cardChart = [
 	[10, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1],
 	[9 , 1, 2, 2, 2, 2, 1, 1, 1, 1, 1],
 	['5-8', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+let softChart = [
+	['A,8-10', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	['A,7', 0, 2, 2, 2, 2, 0, 0, 1, 1, 1],
+	['A,6', 1, 2, 2, 2, 2, 1, 1, 1, 1, 1],
+	['A,5', 1, 1, 2, 2, 2, 1, 1, 1, 1, 1],
+	['A,4', 1, 1, 2, 2, 2, 1, 1, 1, 1, 1],
+	['A,3', 1, 1, 1, 2, 2, 1, 1, 1, 1, 1],
+	['A,2', 1, 1, 1, 2, 2, 1, 1, 1, 1, 1],
+]
+let splitChart = [
+	['A,A 8,8', 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+	['10,10', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	['9,9', 3, 3, 3, 3, 3, 0, 3, 3, 0, 0],
+	['7,7', 3, 3, 3, 3, 3, 3, 1, 1, 1, 1],
+	['6,6', 3, 3, 3, 3, 3, 1, 1, 1, 1, 1],
+	['5,5', 2, 2, 2, 2, 2, 2, 2, 2, 1, 1],
+	['4,4',  1, 1, 1, 3, 3, 1, 1, 1, 1, 1],
+	['3,3',  3, 3, 3, 3, 3, 3, 1, 1, 1, 1],
+	['2,2',  3, 3, 3, 3, 3, 3, 1, 1, 1, 1]
 ]
 
 // Reveal chart button
@@ -46,33 +66,33 @@ function highlightChoice() {
 	topRowValues.forEach(r => {
 		if (dc === r) {
 			dcHighlight = chartBody.rows[0].cells[r-1]
-			dcHighlight.style.backgroundColor = 'black'
+			dcHighlight.style.backgroundColor = 'pink'
 			x = r-1
 		} else if (dc === 11) {
 			dcHighlight = chartBody.rows[0].cells[10]
-			dcHighlight.style.backgroundColor = 'black'
+			dcHighlight.style.backgroundColor = 'pink'
 			x = 10
 		}
 	})
 	cardChart.forEach(c => {
 			if (playerTotal === c[0]) {
 				pcHighlight = chartBody.rows[18-playerTotal].cells[0]
-				pcHighlight.style.backgroundColor = 'black'
+				pcHighlight.style.backgroundColor = 'pink'
 				y = 18-playerTotal
 			} else if (playerTotal < 9) {
 				pcHighlight = chartBody.rows[10].cells[0]
-				pcHighlight.style.backgroundColor = 'black'
+				pcHighlight.style.backgroundColor = 'pink'
 				y = 10
 			} else if (playerTotal > 16) {
 				pcHighlight = chartBody.rows[1].cells[0]
-				pcHighlight.style.backgroundColor = 'black'
+				pcHighlight.style.backgroundColor = 'pink'
 				y = 1
 			}
 	})
 
 	cross = chartBody.rows[y].cells[x]
 	handColor = cross.style.backgroundColor
-	cross.style.backgroundColor = 'black'
+	cross.style.backgroundColor = 'pink'
 }
 
 
@@ -92,18 +112,18 @@ function highlightChoice() {
 
 
 
-
-
+let chartBody = document.querySelector('#chart-body')
+let softBody = document.querySelector('#soft-body')
+let splitBody = document.querySelector('#split-body')
 
 // Creates the charts when the program loads
-function makeChart(playerCards) {
-	let chartBody = document.querySelector('#chart-body')
+function makeChart(chart, location) {
 	let topRow = document.createElement('tr')
-	chartBody.appendChild(topRow)
+	location.appendChild(topRow)
 	topRowValues.forEach(r => {
 		let newColumn = document.createElement('td')
 		if (r === null) {
-			newColumn.style.backgroundColor = 'black'
+			newColumn.style.backgroundColor = 'pink'
 			topRow.appendChild(newColumn)
 		} else if (r != 0 && r != null) {
 			newColumn.innerText = r
@@ -115,9 +135,9 @@ function makeChart(playerCards) {
 			topRow.appendChild(newColumn)
 		}
 	})
-	cardChart.forEach(r => {
+	chart.forEach(r => {
 		let newRow = document.createElement('tr')
-		chartBody.appendChild(newRow)
+		location.appendChild(newRow)
 		r.forEach(c => {
 			let newColumn = document.createElement('td')
 			let moveChoice = c
@@ -130,6 +150,9 @@ function makeChart(playerCards) {
 			} else if (c === 2) {
 				newColumn.innerText = 'D'
 				newColumn.style.backgroundColor = 'red'
+			} else if (c === 3) {
+				newColumn.innerText = 'Sp'
+				newColumn.style.backgroundColor = 'lightblue'
 			} else {
 				newColumn.innerText = c
 				newColumn.style.backgroundColor = 'white'
@@ -138,7 +161,9 @@ function makeChart(playerCards) {
 		})
 	})
 }
-makeChart()
+makeChart(cardChart, chartBody)
+makeChart(softChart, softBody)
+makeChart(splitChart, splitBody)
 
 // Close chart screen
 function closeChart() {
