@@ -41,9 +41,6 @@ let splitChart = [
 let chartBody = document.querySelector('#chart-body')
 let softBody = document.querySelector('#soft-body')
 let splitBody = document.querySelector('#split-body')
-let card1 = document.querySelector('#card1')
-let card2 = document.querySelector('#card2')
-let playerTotal = card1.value + card2.value
 
 // Reveal chart button
 function revealChart() {
@@ -52,22 +49,30 @@ function revealChart() {
 	chartSection.style.display = 'flex'
 	chartCloseBtn.style.display = 'flex'
 
+	let card1 = document.querySelector('#card1')
+	let card2 = document.querySelector('#card2')
+	let playerTotal = card1.value + card2.value
+
 	// One of the player cards is an ace
-	if (card1.value === 11 || card2.value === 11) {
+	if (((card1.value === 11) || (card2.value === 11)) && (card1.value != card2.value)) {
 		makeChart(softChart, softBody)
-		highlightChoice(softChart, softBody)
+		highlightChoice(softChart, softBody, playerTotal)
 	// Player cards are the same and neither are royal
-	} else if (card1.value === card2.value && (playerTotal <= 18 || playerTotal === 22)) {
+	} else if ((card1.value === card2.value) && (playerTotal <= 18 || playerTotal === 22 || (card1.rank === 10 && card2.rank === 10))) {
 		makeChart(splitChart, splitBody)
-		highlightChoice(splitChart, splitBody)
-	// Player cards are both royal
-	} else if (card1.value === card2.value && card1.rank === card2.rank && card1.rank != 10 && card2.rank != 10) {
+		highlightChoice(splitChart, splitBody, playerTotal)
+	// Different ranked 10s
+	} else if (card1.value === 10 && card2.value === 10 && (card1.rank != card2.rank)) {
 		makeChart(cardChart, chartBody)
-		highlightChoice(cardChart, chartBody)
+		highlightChoice(cardChart, chartBody, playerTotal)
+	// Player cards are both royal
+	} else if ((card1.value === card2.value) && (card1.rank === card2.rank) && (card1.rank != 10) && (card2.rank != 10)) {
+		makeChart(cardChart, chartBody)
+		highlightChoice(cardChart, chartBody, playerTotal)
 	// Player cards are different and neither is an ace
 	} else if (card1.value != card2.value) {
 		makeChart(cardChart, chartBody)
-		highlightChoice(cardChart, chartBody)
+		highlightChoice(cardChart, chartBody, playerTotal)
 	}
 }
 
@@ -79,7 +84,7 @@ let cross;
 let handColor;
 
 // Highlights the row, column, and correct move for the current hand
-function highlightChoice(chart, location) {
+function highlightChoice(chart, location, playerTotal) {
 	let dc = document.querySelector('#dealer2').value
 
 	topRowValues.forEach(r => {
@@ -93,7 +98,6 @@ function highlightChoice(chart, location) {
 			x = 10
 		}
 	})
-
 
 	if (chart === cardChart) {
 		chart.forEach(c => {
@@ -123,9 +127,27 @@ function highlightChoice(chart, location) {
 				y = 1
 			}
 		})
+	} else if (chart === splitChart) {
+		chart.forEach(c => {
+			if (playerTotal <= 14) {
+				pcHighlight = location.rows[11-(playerTotal/2)].cells[0]
+				pcHighlight.style.backgroundColor = 'pink'
+				y = 11-(playerTotal/2)
+			} else if (playerTotal === 22 || playerTotal === 16) {
+				pcHighlight = location.rows[1].cells[0]
+				pcHighlight.style.backgroundColor = 'pink'
+				y = 1
+			} else if (playerTotal === 20) {
+				pcHighlight = location.rows[2].cells[0]
+				pcHighlight.style.backgroundColor = 'pink'
+				y = 2
+			} else if (playerTotal === 18) {
+				pcHighlight = location.rows[3].cells[0]
+				pcHighlight.style.backgroundColor = 'pink'
+				y = 3
+			}
+		})
 	}
-
-
 
 	cross = location.rows[y].cells[x]
 	handColor = cross.style.backgroundColor
