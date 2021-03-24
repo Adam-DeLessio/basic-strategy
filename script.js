@@ -77,9 +77,6 @@ let oneAce = [
 	[13, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1],
 ]
 
-
-
-
 // Creates a random card //
 function makeCard() {
 	let randomSuit = suits[(Math.floor(Math.random() * 4))]
@@ -130,7 +127,9 @@ function Hand() {
 	let card2 = document.querySelector('#card2')
 	let dealer2 = document.querySelector('#dealer2')
 	card1.value = pc1.value
+	card1.rank = pc1.rank
 	card2.value = pc2.value
+	card2.rank = pc2.rank
 	dealer2.value = dc.value
 
 	//// soft hit

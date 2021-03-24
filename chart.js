@@ -38,6 +38,13 @@ let splitChart = [
 	['2,2',  3, 3, 3, 3, 3, 3, 1, 1, 1, 1]
 ]
 
+let chartBody = document.querySelector('#chart-body')
+let softBody = document.querySelector('#soft-body')
+let splitBody = document.querySelector('#split-body')
+let card1 = document.querySelector('#card1')
+let card2 = document.querySelector('#card2')
+let playerTotal = card1.value + card2.value
+
 // Reveal chart button
 function revealChart() {
 	let main = document.querySelector('#main')
@@ -45,7 +52,23 @@ function revealChart() {
 	chartSection.style.display = 'flex'
 	chartCloseBtn.style.display = 'flex'
 
-	highlightChoice()
+	// One of the player cards is an ace
+	if (card1.value === 11 || card2.value === 11) {
+		makeChart(softChart, softBody)
+		highlightChoice(softChart, softBody)
+	// Player cards are the same and neither are royal
+	} else if (card1.value === card2.value && (playerTotal <= 18 || playerTotal === 22)) {
+		makeChart(splitChart, splitBody)
+		highlightChoice(splitChart, splitBody)
+	// Player cards are both royal
+	} else if (card1.value === card2.value && card1.rank === card2.rank && card1.rank != 10 && card2.rank != 10) {
+		makeChart(cardChart, chartBody)
+		highlightChoice(cardChart, chartBody)
+	// Player cards are different and neither is an ace
+	} else if (card1.value != card2.value) {
+		makeChart(cardChart, chartBody)
+		highlightChoice(cardChart, chartBody)
+	}
 }
 
 let dcHighlight;
@@ -56,67 +79,60 @@ let cross;
 let handColor;
 
 // Highlights the row, column, and correct move for the current hand
-function highlightChoice() {
-	let card1 = document.querySelector('#card1').value
-	let card2 = document.querySelector('#card2').value
+function highlightChoice(chart, location) {
 	let dc = document.querySelector('#dealer2').value
-
-	let playerTotal = card1 + card2
 
 	topRowValues.forEach(r => {
 		if (dc === r) {
-			dcHighlight = chartBody.rows[0].cells[r-1]
+			dcHighlight = location.rows[0].cells[r-1]
 			dcHighlight.style.backgroundColor = 'pink'
 			x = r-1
 		} else if (dc === 11) {
-			dcHighlight = chartBody.rows[0].cells[10]
+			dcHighlight = location.rows[0].cells[10]
 			dcHighlight.style.backgroundColor = 'pink'
 			x = 10
 		}
 	})
-	cardChart.forEach(c => {
-			if (playerTotal === c[0]) {
-				pcHighlight = chartBody.rows[18-playerTotal].cells[0]
+
+
+	if (chart === cardChart) {
+		chart.forEach(c => {
+				if (playerTotal === c[0]) {
+					pcHighlight = location.rows[18-playerTotal].cells[0]
+					pcHighlight.style.backgroundColor = 'pink'
+					y = 18-playerTotal
+				} else if (playerTotal < 9) {
+					pcHighlight = location.rows[10].cells[0]
+					pcHighlight.style.backgroundColor = 'pink'
+					y = 10
+				} else if (playerTotal > 16) {
+					pcHighlight = location.rows[1].cells[0]
+					pcHighlight.style.backgroundColor = 'pink'
+					y = 1
+				}
+		})
+	} else if (chart === softChart) {
+		chart.forEach(c => {
+			if (playerTotal <= 18) {
+				pcHighlight = location.rows[20-playerTotal].cells[0]
 				pcHighlight.style.backgroundColor = 'pink'
-				y = 18-playerTotal
-			} else if (playerTotal < 9) {
-				pcHighlight = chartBody.rows[10].cells[0]
-				pcHighlight.style.backgroundColor = 'pink'
-				y = 10
-			} else if (playerTotal > 16) {
-				pcHighlight = chartBody.rows[1].cells[0]
+				y = 20-playerTotal
+			} else if (playerTotal >= 19) {
+				pcHighlight = location.rows[1].cells[0]
 				pcHighlight.style.backgroundColor = 'pink'
 				y = 1
 			}
-	})
+		})
+	}
 
-	cross = chartBody.rows[y].cells[x]
+
+
+	cross = location.rows[y].cells[x]
 	handColor = cross.style.backgroundColor
 	cross.style.backgroundColor = 'pink'
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-let chartBody = document.querySelector('#chart-body')
-let softBody = document.querySelector('#soft-body')
-let splitBody = document.querySelector('#split-body')
-
-// Creates the charts when the program loads
+// Creates the charts
 function makeChart(chart, location) {
 	let topRow = document.createElement('tr')
 	location.appendChild(topRow)
@@ -161,9 +177,10 @@ function makeChart(chart, location) {
 		})
 	})
 }
-makeChart(cardChart, chartBody)
-makeChart(softChart, softBody)
-makeChart(splitChart, splitBody)
+
+	// makeChart(cardChart, chartBody)
+	// makeChart(softChart, softBody)
+	// makeChart(splitChart, splitBody)
 
 // Close chart screen
 function closeChart() {
@@ -172,4 +189,8 @@ function closeChart() {
 	dcHighlight.style.backgroundColor = 'white'
 	pcHighlight.style.backgroundColor = 'white'
 	cross.style.backgroundColor = handColor
+
+	chartBody.innerHTML = ''
+	softBody.innerHTML = ''
+	splitBody.innerHTML = ''
 }
